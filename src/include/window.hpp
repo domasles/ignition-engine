@@ -22,10 +22,12 @@ namespace ignition {
 
 			bool shouldClose() { return glfwWindowShouldClose(window); }
 
+			GLFWwindow *getGLFWWindow() const { return window; };
+
 			void run(LoopCallback loopCallback);
 
 		private:
-			static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
+			static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
 
 			void init();
 

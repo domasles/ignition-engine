@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Built binaries
+baseBuild/
+testBuild/
+
+# Test files
+test/
+testMakefile

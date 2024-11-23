@@ -20,11 +20,11 @@ namespace ignition {
 			Window(const Window &) = delete;
 			Window &operator=(const Window &) = delete;
 
+			void run(LoopCallback loopCallback);
+
 			bool shouldClose() { return glfwWindowShouldClose(window); }
 
 			GLFWwindow *getGLFWWindow() const { return window; };
-
-			void run(LoopCallback loopCallback);
 
 		private:
 			static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
@@ -35,6 +35,7 @@ namespace ignition {
 			int height;
 
 			std::string title;
+			
 			glm::vec4 clearColor;
 
 			GLFWwindow *window;

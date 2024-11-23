@@ -38,3 +38,6 @@ debugBuild/
 # Debug files
 debug/
 debugMakefile
+
+# Workspace configurations
+.vscode/

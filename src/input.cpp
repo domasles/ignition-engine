@@ -17,11 +17,8 @@ namespace ignition {
 		for (int i = GLFW_KEY_UNKNOWN + 1; i <= GLFW_KEY_LAST; ++i) {
 			bool currentlyPressed = glfwGetKey(glfwWindow, i) == GLFW_PRESS;
 
-			if (currentlyPressed && !keyState[i]) {
-				keyPressed[i] = true;
-			} else if (!currentlyPressed && keyState[i]) {
-				keyReleased[i] = true;
-			}
+			if (currentlyPressed && !keyState[i]) keyPressed[i] = true;
+			else if (!currentlyPressed && keyState[i]) keyReleased[i] = true;
 
 			keyState[i] = currentlyPressed;
 		}

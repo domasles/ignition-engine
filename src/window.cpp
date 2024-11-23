@@ -10,6 +10,18 @@ namespace ignition {
 		glfwTerminate();
 	}
 
+	void Window::run(LoopCallback loopCallback) {
+		while (!shouldClose()) {
+			glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			loopCallback();
+			
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
+	}
+
 	void Window::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);
 	}
@@ -24,29 +36,14 @@ namespace ignition {
 
 		window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
-		if (window == nullptr) {
-			throw std::runtime_error("Failed to create GLFW window!");
-		}
+		if (window == nullptr) throw std::runtime_error("Failed to create GLFW window!");
 
 		glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
 		glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-			throw std::runtime_error("Failed to initialize GLAD!");
-		}
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) throw std::runtime_error("Failed to initialize GLAD!");
 
 		glViewport(0, 0, width, height);
-	}
-
-	void Window::run(LoopCallback loopCallback) {
-		while (!shouldClose()) {
-			glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			loopCallback();
-			
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-		}
 	}
 }

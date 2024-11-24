@@ -36,13 +36,21 @@ namespace ignition {
 
 		window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
-		if (window == nullptr) throw std::runtime_error("Failed to create GLFW window!");
+		if (window == nullptr) {
+			glfwTerminate();
+			throw std::runtime_error("Failed to create GLFW window!");
+		}
 
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
 		glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) throw std::runtime_error("Failed to initialize GLAD!");
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+			glfwDestroyWindow(window);
+			glfwTerminate();
+			
+			throw std::runtime_error("Failed to initialize GLAD!");
+		}
 
 		glViewport(0, 0, width, height);
 	}

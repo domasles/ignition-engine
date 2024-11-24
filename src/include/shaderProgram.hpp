@@ -15,7 +15,7 @@ namespace ignition {
 
 	class ShaderProgram {
 		public:
-			ShaderProgram(const std::filesystem::path &shaderDir="shaders");
+			ShaderProgram(const std::filesystem::path &shaderDir="assets/shaders");
 			~ShaderProgram();
 
 			void use() const;
@@ -27,6 +27,8 @@ namespace ignition {
 
 		private:
 			void loadShaderIncludes(const std::filesystem::path &shadersPath);
+
+			const std::string virtualRoot = "/";
 
 			GLuint compileShader(const std::string &source, GLenum shaderType);
 

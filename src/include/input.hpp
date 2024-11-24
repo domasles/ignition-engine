@@ -3,6 +3,7 @@
 #include "window.hpp"
 
 #include <unordered_map>
+#include <mutex>
 
 #include <GLFW/glfw3.h>
 
@@ -25,5 +26,7 @@ namespace ignition {
 			std::unordered_map<int, bool> keyState;
 			std::unordered_map<int, bool> keyPressed;
 			std::unordered_map<int, bool> keyReleased;
+
+			mutable std::mutex inputMutex;
 	};
 }

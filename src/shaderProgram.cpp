@@ -65,8 +65,6 @@ namespace ignition {
 			return;
 		}
 
-		const std::string virtualRoot = "/";
-
 		for (const auto &entry : std::filesystem::recursive_directory_iterator(shadersPath)) {
 			if (entry.is_regular_file() && entry.path().extension() == ".glsl") {
 				std::string relativePath = Filesystem::normalizePath(entry.path().lexically_relative(shadersPath));

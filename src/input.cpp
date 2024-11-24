@@ -14,6 +14,8 @@ namespace ignition {
 	void Input::update() {
 		GLFWwindow* glfwWindow = window.getGLFWWindow();
 
+		std::lock_guard<std::mutex> lock(inputMutex);
+
 		for (int i = GLFW_KEY_UNKNOWN + 1; i <= GLFW_KEY_LAST; ++i) {
 			bool currentlyPressed = glfwGetKey(glfwWindow, i) == GLFW_PRESS;
 
@@ -25,7 +27,10 @@ namespace ignition {
 	}
 
 	bool Input::isKeyPressed(int key) const {
+		std::lock_guard<std::mutex> lock(inputMutex);
+
 		auto it = keyState.find(key);
+		
 		return it != keyState.end() && it->second;
 	}
 }

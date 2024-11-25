@@ -21,12 +21,12 @@ namespace ignition {
 			bool isKeyPressed(int key) const;
 
 		private:
+			mutable std::mutex inputMutex;
+
 			Window &window;
 			
 			std::unordered_map<int, bool> keyState;
 			std::unordered_map<int, bool> keyPressed;
 			std::unordered_map<int, bool> keyReleased;
-
-			mutable std::mutex inputMutex;
 	};
 }

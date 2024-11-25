@@ -17,11 +17,11 @@ namespace ignition {
 		protected:
 			void setupBuffers();
 
+			const ShaderProgram &shaderProgram;
+
 			GLuint VAO, VBO, EBO;
 
 			std::vector<float> vertices;
 			std::vector<unsigned int> indices;
-
-			const ShaderProgram &shaderProgram;
 	};
 }

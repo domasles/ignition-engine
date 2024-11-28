@@ -1,13 +1,13 @@
 #include "include/shaderProgram.hpp"
 
 namespace ignition {
-	ShaderProgram::ShaderProgram(const std::filesystem::path &shadersDir) {
+	ShaderProgram::ShaderProgram(const std::filesystem::path &shadersDir, const std::filesystem::path &vertexShaderFilename, const std::filesystem::path &fragmentShaderFilename) {
 		std::filesystem::path shadersPath = Filesystem::getExecutableDir() / shadersDir;
 		
 		if (GLAD_GL_ARB_shading_language_include) loadShaderIncludes(shadersPath);
 
-		std::string vertexCode = loadShaderCode(shadersPath / "main.vert");
-		std::string fragmentCode = loadShaderCode(shadersPath / "main.frag");
+		std::string vertexCode = loadShader(shadersPath / vertexShaderFilename);
+		std::string fragmentCode = loadShader(shadersPath / fragmentShaderFilename);
 
 		GLuint vertexShader = compileShader(vertexCode, GL_VERTEX_SHADER);
 		GLuint fragmentShader = compileShader(fragmentCode, GL_FRAGMENT_SHADER);
@@ -55,6 +55,10 @@ namespace ignition {
 		glUniform3fv(glGetUniformLocation(programID, name.c_str()), 1, glm::value_ptr(value));
 	}
 
+	void ShaderProgram::setUniform(const std::string &name, const glm::vec4 &value) const {
+		glUniform4fv(glGetUniformLocation(programID, name.c_str()), 1, glm::value_ptr(value));
+	}
+
 	void ShaderProgram::setUniform(const std::string &name, const glm::mat4 &value) const {
 		glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 	}
@@ -69,7 +73,7 @@ namespace ignition {
 			if (entry.is_regular_file() && entry.path().extension() == ".glsl") {
 				std::string relativePath = Filesystem::normalizePath(entry.path().lexically_relative(shadersPath));
 				std::string virtualPath = virtualRoot + relativePath;
-				std::string includeCode = loadShaderCode(entry.path());
+				std::string includeCode = loadShader(entry.path());
 
 				glNamedStringARB(GL_SHADER_INCLUDE_ARB, virtualPath.size(), virtualPath.c_str(), includeCode.size(), includeCode.c_str());
 			}
@@ -99,7 +103,7 @@ namespace ignition {
 		return shader;
 	}
 
-	std::string ShaderProgram::loadShaderCode(const std::filesystem::path &shaderPath) {
+	std::string ShaderProgram::loadShader(const std::filesystem::path &shaderPath) {
 		std::ifstream file(shaderPath);
 
 		if (!file.is_open()) {

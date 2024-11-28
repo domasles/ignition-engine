@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shaderProgram.hpp"
+#include "material.hpp"
 
 #include <vector>
 
@@ -9,7 +10,7 @@
 namespace ignition {
 	class Model {
 		public:
-			Model(const ShaderProgram &shaderProgram);
+			explicit Model(const Material &material);
 			virtual ~Model();
 
 			virtual void render();
@@ -17,7 +18,7 @@ namespace ignition {
 		protected:
 			void setupBuffers();
 
-			const ShaderProgram &shaderProgram;
+			const Material &material;
 
 			GLuint VAO, VBO, EBO;
 

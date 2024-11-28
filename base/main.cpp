@@ -1,6 +1,6 @@
 #include "include/include.hpp"
 
-ignition::Window window{1600, 900, "Ignition Engine", {0.2f, 0.3f, 0.3f, 1.0f}};
+ignition::Window window{1600, 900, true, "Ignition Engine", {0.2f, 0.3f, 0.3f, 1.0f}};
 
 void gameLoop() {}
 

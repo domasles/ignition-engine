@@ -1,7 +1,7 @@
 #include "include/model.hpp"
 
 namespace ignition {
-	Model::Model(const ShaderProgram &shaderProgram) : VAO(0), VBO(0), EBO(0), shaderProgram(shaderProgram) {}
+	Model::Model(const Material &material) : VAO(0), VBO(0), EBO(0), material(material) {}
 
 	Model::~Model() {
 		glDeleteVertexArrays(1, &VAO);
@@ -11,7 +11,8 @@ namespace ignition {
 	}
 
 	void Model::render() {
-		shaderProgram.use();
+		material.apply();
+		
 		glBindVertexArray(VAO);
 
 		if (!indices.empty()) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

@@ -1,7 +1,7 @@
 #include "include/window.hpp"
 
 namespace ignition {
-	Window::Window(int width, int height, std::string title, glm::vec4 clearColor) : width(width), height(height), title(title), clearColor(clearColor) {
+	Window::Window(int width, int height, bool vsync, std::string title, glm::vec4 clearColor) : width(width), height(height), vsync(vsync), title(title), clearColor(clearColor) {
 		init();
 	}
 
@@ -42,8 +42,9 @@ namespace ignition {
 		}
 
 		glfwMakeContextCurrent(window);
-		glfwSwapInterval(1);
 		glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+
+		if (vsync) glfwSwapInterval(1);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			glfwDestroyWindow(window);

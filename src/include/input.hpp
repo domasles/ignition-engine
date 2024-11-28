@@ -2,31 +2,33 @@
 
 #include "window.hpp"
 
-#include <unordered_map>
+#include <array>
 #include <mutex>
 
 #include <GLFW/glfw3.h>
 
 namespace ignition {
 	class Input {
-		public:
-			Input(Window &window);
-			~Input();
+	public:
+		explicit Input(Window &window);
+		~Input();
 
-			Input(const Window &) = delete;
-			Input &operator=(const Window &) = delete;
-			
-			void update();
+		Input(const Window &) = delete;
+		Input &operator=(const Window &) = delete;
 
-			bool isKeyPressed(int key) const;
+		void update();
 
-		private:
-			mutable std::mutex inputMutex;
+		bool isKeyPressed(int key) const;
+		bool wasKeyPressed(int key) const;
+		bool wasKeyReleased(int key) const;
 
-			Window &window;
-			
-			std::unordered_map<int, bool> keyState;
-			std::unordered_map<int, bool> keyPressed;
-			std::unordered_map<int, bool> keyReleased;
+	private:
+		mutable std::mutex inputMutex;
+		static constexpr int KeyCount = GLFW_KEY_LAST + 1;
+
+		Window &window;
+
+		std::array<bool, KeyCount> keyState{};
+		std::array<bool, KeyCount> prevKeyState{};
 	};
 }

@@ -1,36 +1,34 @@
 #include "include/input.hpp"
 
 namespace ignition {
-	Input::Input(Window &window) : window(window) {
-		for (int i = GLFW_KEY_UNKNOWN + 1; i <= GLFW_KEY_LAST; ++i) {
-			keyState[i] = false;
-			keyPressed[i] = false;
-			keyReleased[i] = false;
-		}
-	}
+	Input::Input(Window &window) : window(window) {}
 
 	Input::~Input() {}
 
 	void Input::update() {
-		GLFWwindow* glfwWindow = window.getGLFWWindow();
+		GLFWwindow *glfwWindow = window.getGLFWWindow();
 
-		std::lock_guard<std::mutex> lock(inputMutex);
+		{
+			std::lock_guard<std::mutex> lock(inputMutex);
 
-		for (int i = GLFW_KEY_UNKNOWN + 1; i <= GLFW_KEY_LAST; ++i) {
-			bool currentlyPressed = glfwGetKey(glfwWindow, i) == GLFW_PRESS;
+			prevKeyState = keyState;
 
-			if (currentlyPressed && !keyState[i]) keyPressed[i] = true;
-			else if (!currentlyPressed && keyState[i]) keyReleased[i] = true;
-
-			keyState[i] = currentlyPressed;
+			for (int i = 0; i < KeyCount; ++i) keyState[i] = glfwGetKey(glfwWindow, i) == GLFW_PRESS;
 		}
 	}
 
 	bool Input::isKeyPressed(int key) const {
 		std::lock_guard<std::mutex> lock(inputMutex);
+		return key >= 0 && key < KeyCount && keyState[key];
+	}
 
-		auto it = keyState.find(key);
-		
-		return it != keyState.end() && it->second;
+	bool Input::wasKeyPressed(int key) const {
+		std::lock_guard<std::mutex> lock(inputMutex);
+		return key >= 0 && key < KeyCount && keyState[key] && !prevKeyState[key];
+	}
+
+	bool Input::wasKeyReleased(int key) const {
+		std::lock_guard<std::mutex> lock(inputMutex);
+		return key >= 0 && key < KeyCount && !keyState[key] && prevKeyState[key];
 	}
 }

@@ -14,17 +14,18 @@ namespace ignition {
 	
 	class Window {
 		public:
-			Window(int width, int height, std::string title, glm::vec4 clearColor=glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+			Window(int width, int height, bool vsync, std::string title, glm::vec4 clearColor=glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 			~Window();
 
 			Window(const Window &) = delete;
 			Window &operator=(const Window &) = delete;
 
 			void run(LoopCallback loopCallback);
+			void triggerVsync(bool vsyncValue) { vsync = vsyncValue; }
 
 			bool shouldClose() { return glfwWindowShouldClose(window); }
 
-			GLFWwindow *getGLFWWindow() const { return window; };
+			GLFWwindow *getGLFWWindow() const { return window; }
 
 		private:
 			static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
@@ -33,6 +34,8 @@ namespace ignition {
 
 			int width;
 			int height;
+
+			bool vsync;
 
 			std::string title;
 			

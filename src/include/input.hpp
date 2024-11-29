@@ -8,27 +8,27 @@
 #include <GLFW/glfw3.h>
 
 namespace ignition {
-	class Input {
-	public:
-		explicit Input(Window &window);
-		~Input();
+    class Input {
+        public:
+            explicit Input(Window &window);
+            ~Input();
 
-		Input(const Window &) = delete;
-		Input &operator=(const Window &) = delete;
+            Input(const Window &) = delete;
+            Input &operator=(const Window &) = delete;
 
-		void update();
+            void update();
 
-		bool isKeyPressed(int key) const;
-		bool wasKeyPressed(int key) const;
-		bool wasKeyReleased(int key) const;
+            bool isKeyPressed(int key) const;
+            bool wasKeyPressed(int key) const;
+            bool wasKeyReleased(int key) const;
 
-	private:
-		mutable std::mutex inputMutex;
-		static constexpr int KeyCount = GLFW_KEY_LAST + 1;
+        private:
+            static constexpr int KeyCount = GLFW_KEY_LAST + 1;
+            mutable std::mutex inputMutex;
 
-		Window &window;
+            Window &window;
 
-		std::array<bool, KeyCount> keyState{};
-		std::array<bool, KeyCount> prevKeyState{};
-	};
+            std::array<bool, KeyCount> keyState{};
+            std::array<bool, KeyCount> prevKeyState{};
+    };
 }

@@ -5,18 +5,18 @@
 #include <glm/glm.hpp>
 
 namespace ignition {
-	class Material {
-		public:
-			explicit Material(const ShaderProgram &shaderProgram);
-			virtual ~Material() = default;
+    class Material {
+        public:
+            explicit Material(const ShaderProgram &shaderProgram);
+            virtual ~Material() = default;
 
-			virtual void apply() const;
+            virtual void apply() const;
 
-			const ShaderProgram &getShaderProgram() const { return shaderProgram; }
+            const ShaderProgram &getShaderProgram() const { return shaderProgram; }
 
-		protected:
-			const ShaderProgram &shaderProgram;
+        protected:
+            const ShaderProgram &shaderProgram;
 
-			glm::vec4 color;
-	};
+            glm::vec4 color;
+    };
 }

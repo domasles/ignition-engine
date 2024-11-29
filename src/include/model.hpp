@@ -8,21 +8,21 @@
 #include <GLFW/glfw3.h>
 
 namespace ignition {
-	class Model {
-		public:
-			explicit Model(const Material &material);
-			virtual ~Model();
+    class Model {
+        public:
+            explicit Model(const Material &material);
+            virtual ~Model();
 
-			virtual void render();
+            virtual void render();
 
-		protected:
-			void setupBuffers();
+        protected:
+            void setupBuffers();
 
-			const Material &material;
+            const Material &material;
 
-			GLuint VAO, VBO, EBO;
+            GLuint VAO, VBO, EBO;
 
-			std::vector<float> vertices;
-			std::vector<unsigned int> indices;
-	};
+            std::vector<float> vertices;
+            std::vector<unsigned int> indices;
+    };
 }

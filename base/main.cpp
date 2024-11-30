@@ -1,10 +1,10 @@
 #include "include/include.hpp"
 
-ignition::Window window{1600, 900, true, "Ignition Engine", {0.2f, 0.3f, 0.3f, 1.0f}};
+std::shared_ptr<ignition::Window> window = std::make_shared<ignition::Window>(1600, 900, true, "Ignition Engine", glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
 
 void gameLoop() {}
 
 int main() {
-    window.run(gameLoop);
+    window->run(gameLoop);
     return 0;
 }

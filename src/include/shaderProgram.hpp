@@ -12,7 +12,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace ignition {
-
     class ShaderProgram {
         public:
             ShaderProgram(const std::filesystem::path &shadersDir="assets/shaders", const std::filesystem::path &vertexShaderFilename="main.vert", const std::filesystem::path &fragmentShaderFilename="main.frag");
@@ -22,6 +21,7 @@ namespace ignition {
 
             void setUniform(const std::string &name, int value) const;
             void setUniform(const std::string &name, float value) const;
+
             void setUniform(const std::string &name, const glm::vec3 &value) const;
             void setUniform(const std::string &name, const glm::vec4 &value) const;
             void setUniform(const std::string &name, const glm::mat4 &value) const;

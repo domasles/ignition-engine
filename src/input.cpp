@@ -1,12 +1,12 @@
 #include "include/input.hpp"
 
 namespace ignition {
-    Input::Input(Window &window) : window(window) {}
+    Input::Input(const std::shared_ptr<Window> &window) : window(window) {}
 
     Input::~Input() {}
 
     void Input::update() {
-        GLFWwindow *glfwWindow = window.getGLFWWindow();
+        GLFWwindow *glfwWindow = window->getGLFWWindow();
 
         {
             std::lock_guard<std::mutex> lock(inputMutex);

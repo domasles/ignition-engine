@@ -10,15 +10,19 @@
 namespace ignition {
     class Model {
         public:
-            explicit Model(const Material &material);
+            explicit Model() = default;
             virtual ~Model();
 
-            virtual void render();
+            void setMaterial(const std::shared_ptr<Material> &material);
+            void setVertices(const std::vector<float> &vertices);
+            void setIndices(const std::vector<unsigned int> &indices);
+
+            void render();
 
         protected:
             void setupBuffers();
 
-            const Material &material;
+            std::shared_ptr<Material> material;
 
             GLuint VAO, VBO, EBO;
 

@@ -2,12 +2,12 @@
 
 namespace ignition {
     ShaderProgram::ShaderProgram(const std::filesystem::path &shadersDir, const std::filesystem::path &vertexShaderFilename, const std::filesystem::path &fragmentShaderFilename) {
-        std::filesystem::path shadersPath = Filesystem::getExecutableDir() / shadersDir;
+        std::filesystem::path fullShadersPath = Filesystem::getExecutableDir() / shadersDir;
         
-        if (GLAD_GL_ARB_shading_language_include) loadShaderIncludes(shadersPath);
+        if (GLAD_GL_ARB_shading_language_include) loadShaderIncludes(fullShadersPath);
 
-        std::string vertexCode = loadShader(shadersPath / vertexShaderFilename);
-        std::string fragmentCode = loadShader(shadersPath / fragmentShaderFilename);
+        std::string vertexCode = loadShader(fullShadersPath / vertexShaderFilename);
+        std::string fragmentCode = loadShader(fullShadersPath / fragmentShaderFilename);
 
         GLuint vertexShader = compileShader(vertexCode, GL_VERTEX_SHADER);
         GLuint fragmentShader = compileShader(fragmentCode, GL_FRAGMENT_SHADER);

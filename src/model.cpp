@@ -1,8 +1,6 @@
 #include "include/model.hpp"
 
 namespace ignition {
-    Model::Model(const Material &material) : VAO(0), VBO(0), EBO(0), material(material) {}
-
     Model::~Model() {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
@@ -10,8 +8,23 @@ namespace ignition {
         if (EBO) glDeleteBuffers(1, &EBO);
     }
 
+    void Model::setMaterial(const std::shared_ptr<Material> &material) {
+        this->material = material;
+        setupBuffers();
+    }
+
+    void Model::setVertices(const std::vector<float> &vertices) {
+        this->vertices = vertices;
+        setupBuffers();
+    }
+
+    void Model::setIndices(const std::vector<unsigned int> &indices) {
+        this->indices = indices;
+        setupBuffers();
+    }
+
     void Model::render() {
-        material.apply();
+        if (material) material->apply();
         
         glBindVertexArray(VAO);
 
@@ -36,8 +49,11 @@ namespace ignition {
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
         }
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
+        
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);

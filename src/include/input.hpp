@@ -4,17 +4,18 @@
 
 #include <array>
 #include <mutex>
+#include <memory>
 
 #include <GLFW/glfw3.h>
 
 namespace ignition {
     class Input {
         public:
-            explicit Input(Window &window);
+            explicit Input(const std::shared_ptr<Window> &window);
             ~Input();
 
-            Input(const Window &) = delete;
-            Input &operator=(const Window &) = delete;
+            Input(const Input &) = delete;
+            Input &operator=(const Input &) = delete;
 
             void update();
 
@@ -26,7 +27,7 @@ namespace ignition {
             static constexpr int KeyCount = GLFW_KEY_LAST + 1;
             mutable std::mutex inputMutex;
 
-            Window &window;
+            std::shared_ptr<Window> window;
 
             std::array<bool, KeyCount> keyState{};
             std::array<bool, KeyCount> prevKeyState{};

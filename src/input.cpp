@@ -17,7 +17,12 @@ namespace ignition {
         }
     }
 
-    bool Input::isKeyPressed(int key) const {
+    bool Input::isKeyUp(int key) const {
+        std::lock_guard<std::mutex> lock(inputMutex);
+        return key >= 0 && key < KeyCount && !keyState[key];
+    }
+
+    bool Input::isKeyDown(int key) const {
         std::lock_guard<std::mutex> lock(inputMutex);
         return key >= 0 && key < KeyCount && keyState[key];
     }

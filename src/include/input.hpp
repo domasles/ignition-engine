@@ -19,7 +19,9 @@ namespace ignition {
 
             void update();
 
-            bool isKeyPressed(int key) const;
+            bool isKeyUp(int key) const;
+            bool isKeyDown(int key) const;
+            
             bool wasKeyPressed(int key) const;
             bool wasKeyReleased(int key) const;
 

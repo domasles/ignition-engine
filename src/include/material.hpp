@@ -9,12 +9,12 @@ namespace ignition {
     class Material {
         public:
             explicit Material(const std::shared_ptr<ShaderProgram> &shaderProgram);
-            virtual ~Material() = default;
+            ~Material() = default;
 
             void setTexture(const std::shared_ptr<Texture> &texture);
             void setColor(const glm::vec4 &color);
 
-            virtual void apply() const;
+            void apply() const;
 
         protected:
             std::shared_ptr<ShaderProgram> shaderProgram;

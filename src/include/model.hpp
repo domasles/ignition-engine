@@ -11,7 +11,7 @@ namespace ignition {
     class Model {
         public:
             explicit Model() = default;
-            virtual ~Model();
+            ~Model();
 
             void setMaterial(const std::shared_ptr<Material> &material);
             void setVertices(const std::vector<float> &vertices);

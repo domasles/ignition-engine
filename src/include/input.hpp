@@ -5,6 +5,7 @@
 #include <array>
 #include <mutex>
 #include <memory>
+#include <unordered_set>
 
 #include <GLFW/glfw3.h>
 
@@ -12,7 +13,7 @@ namespace ignition {
     class Input {
         public:
             explicit Input(const std::shared_ptr<Window> &window);
-            ~Input();
+            ~Input() = default;
 
             Input(const Input &) = delete;
             Input &operator=(const Input &) = delete;
@@ -25,6 +26,9 @@ namespace ignition {
             bool wasKeyPressed(int key) const;
             bool wasKeyReleased(int key) const;
 
+            void trackKey(int key);
+            void untrackKey(int key);
+
         private:
             static constexpr int KeyCount = GLFW_KEY_LAST + 1;
             mutable std::mutex inputMutex;
@@ -33,5 +37,7 @@ namespace ignition {
 
             std::array<bool, KeyCount> keyState{};
             std::array<bool, KeyCount> prevKeyState{};
+
+            std::unordered_set<int> trackedKeys;
     };
 }

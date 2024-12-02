@@ -16,7 +16,9 @@ namespace ignition {
 
             void apply() const;
 
-        protected:
+            std::shared_ptr<ShaderProgram> getShaderProgram() { return shaderProgram; };
+
+        private:
             std::shared_ptr<ShaderProgram> shaderProgram;
             std::shared_ptr<Texture> texture;
             

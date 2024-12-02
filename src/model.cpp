@@ -1,6 +1,8 @@
 #include "include/model.hpp"
 
 namespace ignition {
+    Model::Model () : transform(glm::mat4(1.0f)) {}
+
     Model::~Model() {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
@@ -10,7 +12,6 @@ namespace ignition {
 
     void Model::setMaterial(const std::shared_ptr<Material> &material) {
         this->material = material;
-        setupBuffers();
     }
 
     void Model::setVertices(const std::vector<float> &vertices) {
@@ -23,10 +24,24 @@ namespace ignition {
         setupBuffers();
     }
 
+    void Model::setScale(const glm::vec3 &scale) {
+        transform = glm::scale(transform, scale);
+    }
+
+    void Model::setPosition(const glm::vec3 &position) {
+        transform = glm::translate(transform, position);
+    }
+
+    void Model::setRotation(const glm::vec3 &axes, const float &angle) {
+        transform = glm::rotate(transform, glm::radians(angle), axes);
+    }
+
     void Model::render() {
         if (material) material->apply();
         
         glBindVertexArray(VAO);
+
+        material->getShaderProgram()->setUniform("transform", transform);
 
         if (!indices.empty()) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         else glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);

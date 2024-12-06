@@ -15,16 +15,23 @@ namespace ignition {
     }
 
     void Model::setMaterial(const std::shared_ptr<Material> &material) {
+        if (!material) throw std::runtime_error("Failed to assign a material!");
         this->material = material;
     }
 
     void Model::setVertices(const std::vector<float> &vertices) {
+        if (vertices.empty()) throw std::runtime_error("Failed to assign an empty array of vertices!");
+
         this->vertices = vertices;
+
         setupBuffers();
     }
 
     void Model::setIndices(const std::vector<unsigned int> &indices) {
+        if (indices.empty()) throw std::runtime_error("Failed to assign an empty array of indices!");
+
         this->indices = indices;
+
         setupBuffers();
     }
 
@@ -53,6 +60,11 @@ namespace ignition {
     }
 
     void Model::render() {
+        if (!material) throw std::runtime_error("Material cannot be unset!");
+
+        if (vertices.empty()) throw std::runtime_error("Vertices cannot be unset!");
+        if (indices.empty()) throw std::runtime_error("Indices cannot be unset!");
+
         if (material) material->apply();
         
         glBindVertexArray(VAO);
@@ -69,7 +81,18 @@ namespace ignition {
 
     void Model::setupBuffers() {
         glGenVertexArrays(1, &VAO);
+
+        if (VAO == 0) {
+            std::cerr << "Failed to generate VAO!" << std::endl;
+            throw std::runtime_error("Failed to generate VAO");
+        }
+
         glGenBuffers(1, &VBO);
+
+        if (VBO == 0) {
+            std::cerr << "Failed to generate VBO!" << std::endl;
+            throw std::runtime_error("Failed to generate VBO");
+        }
 
         glBindVertexArray(VAO);
 

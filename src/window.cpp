@@ -12,10 +12,15 @@ namespace ignition {
 
     void Window::run(LoopCallback loopCallback) {
         while (!shouldClose()) {
+            float currentFrameTime = glfwGetTime();
+            float deltaTime = currentFrameTime - lastFrameTime;
+
+            lastFrameTime = currentFrameTime;
+
             glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            loopCallback();
+            loopCallback(deltaTime);
             
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -36,7 +41,7 @@ namespace ignition {
 
         window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
-        if (window == nullptr) {
+        if (!window) {
             glfwTerminate();
             throw std::runtime_error("Failed to create GLFW window!");
         }

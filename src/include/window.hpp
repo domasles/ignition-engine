@@ -10,7 +10,7 @@
 #include <GLFW/glfw3.h>
 
 namespace ignition {
-    using LoopCallback = std::function<void()>;
+    using LoopCallback = std::function<void(float)>;
     
     class Window {
         public:
@@ -34,10 +34,11 @@ namespace ignition {
 
             void init();
 
-            int width;
-            int height;
+            int width, height;
 
             bool vsync;
+
+            float lastFrameTime = 0.0f;
 
             std::string title;
             

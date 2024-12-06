@@ -4,7 +4,7 @@
 #include "include/stb/stb_image.h"
 
 namespace ignition {
-    Texture::Texture(const std::filesystem::path &texturePath) : loaded(false) {
+    Texture::Texture(const std::filesystem::path &texturePath) {
         glGenTextures(1, &textureID);
         glBindTexture(GL_TEXTURE_2D, textureID);
 
@@ -17,10 +17,10 @@ namespace ignition {
 
         std::string fullTexturePath = (Filesystem::getExecutableDir() / texturePath).string();
 
-        unsigned char* data = stbi_load(fullTexturePath.c_str(), &width, &height, &nrChannels, 0);
+        unsigned char* data = stbi_load(fullTexturePath.c_str(), &width, &height, &channelCount, 0);
 
         if (data) {
-            format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+            format = (channelCount == 4) ? GL_RGBA : GL_RGB;
 
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);

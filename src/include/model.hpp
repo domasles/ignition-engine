@@ -19,12 +19,13 @@ namespace ignition {
 
             void setScale(const glm::vec3 &scale);
             void setPosition(const glm::vec3 &position);
-            void setRotation(const glm::vec3 &axes, const float &angle);
+            void setRotation(const glm::vec3 &rotation);
 
             void render();
 
         private:
             void setupBuffers();
+            void updateTransform();
 
             std::shared_ptr<Material> material;
 
@@ -33,6 +34,10 @@ namespace ignition {
             std::vector<float> vertices;
             std::vector<unsigned int> indices;
 
-            glm::mat4 transform;
+            glm::mat4 scale{1.0f};
+            glm::mat4 position{1.0f};
+            glm::mat4 rotation{1.0f};
+
+            glm::mat4 transform{1.0f};
     };
 }

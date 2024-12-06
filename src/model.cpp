@@ -1,7 +1,11 @@
 #include "include/model.hpp"
 
 namespace ignition {
-    Model::Model () : transform(glm::mat4(1.0f)) {}
+    Model::Model () {
+        setScale(glm::vec3(1.0f));
+        setRotation(glm::vec3(0.0f));
+        setPosition(glm::vec3(0.0f));
+    }
 
     Model::~Model() {
         glDeleteVertexArrays(1, &VAO);
@@ -25,15 +29,27 @@ namespace ignition {
     }
 
     void Model::setScale(const glm::vec3 &scale) {
-        transform = glm::scale(transform, scale);
+        this->scale = glm::mat4(1.0f);
+        this->scale = glm::scale(this->scale, scale);
+
+        updateTransform();
     }
 
     void Model::setPosition(const glm::vec3 &position) {
-        transform = glm::translate(transform, position);
+        this->position = glm::mat4(1.0f);
+        this->position = glm::translate(this->position, position);
+
+        updateTransform();
     }
 
-    void Model::setRotation(const glm::vec3 &axes, const float &angle) {
-        transform = glm::rotate(transform, glm::radians(angle), axes);
+    void Model::setRotation(const glm::vec3 &rotation) {
+        this->rotation = glm::mat4(1.0f);
+
+        this->rotation = glm::rotate(this->rotation, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        this->rotation = glm::rotate(this->rotation, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        this->rotation = glm::rotate(this->rotation, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+        updateTransform();
     }
 
     void Model::render() {
@@ -42,6 +58,8 @@ namespace ignition {
         glBindVertexArray(VAO);
 
         material->getShaderProgram()->setUniform("transform", transform);
+
+        glEnable(GL_DEPTH_TEST);
 
         if (!indices.empty()) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         else glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);
@@ -72,5 +90,9 @@ namespace ignition {
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+    }
+
+    void Model::updateTransform() {
+        transform = position * rotation * scale;
     }
 }

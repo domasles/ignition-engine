@@ -21,11 +21,13 @@ namespace ignition {
             Window &operator=(const Window &) = delete;
 
             void run(LoopCallback loopCallback);
-            void triggerVsync(bool vsyncValue) { vsync = vsyncValue; }
+            void triggerVsync(bool value) { vsync = value; }
 
             bool shouldClose() { return glfwWindowShouldClose(window); }
 
             GLFWwindow *getGLFWWindow() const { return window; }
+
+            glm::vec2 getScreenSize() const { return glm::vec2(width, height); }
 
         private:
             static void framebufferResizeCallback(GLFWwindow *window, int width, int height);

@@ -16,22 +16,22 @@ namespace ignition {
     }
 
     bool Input::isKeyUp(int key) const {
-        if (key < 0 || key >= KeyCount) return false;
+        if (key < 0 || key >= keyCount) return false;
         return !keyState[key];
     }
 
     bool Input::isKeyDown(int key) const {
-        if (key < 0 || key >= KeyCount) return false;
+        if (key < 0 || key >= keyCount) return false;
         return keyState[key];
     }
 
     bool Input::wasKeyPressed(int key) const {
-        if (key < 0 || key >= KeyCount) return false;
+        if (key < 0 || key >= keyCount) return false;
         return keyState[key] && !prevKeyState[key];
     }
 
     bool Input::wasKeyReleased(int key) const {
-        if (key < 0 || key >= KeyCount) return false;
+        if (key < 0 || key >= keyCount) return false;
         return !keyState[key] && prevKeyState[key];
     }
 

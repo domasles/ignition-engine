@@ -30,13 +30,13 @@ namespace ignition {
             void untrackKey(int key);
 
         private:
-            static constexpr int KeyCount = GLFW_KEY_LAST + 1;
+            static constexpr int keyCount = GLFW_KEY_LAST + 1;
             mutable std::mutex inputMutex;
 
             std::shared_ptr<Window> window;
 
-            std::array<bool, KeyCount> keyState{};
-            std::array<bool, KeyCount> prevKeyState{};
+            std::array<bool, keyCount> keyState{};
+            std::array<bool, keyCount> prevKeyState{};
 
             std::unordered_set<int> trackedKeys;
     };

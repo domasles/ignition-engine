@@ -18,8 +18,8 @@ namespace ignition {
             bool isLoaded() const { return loaded; }
 
         private:
-            int width, height, nrChannels, format;
-            bool loaded;
+            int width, height, channelCount, format;
+            bool loaded{false};
         
             GLuint textureID;
     };

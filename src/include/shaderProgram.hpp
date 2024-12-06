@@ -31,7 +31,7 @@ namespace ignition {
         private:
             void loadShaderIncludes(const std::filesystem::path &shadersPath);
 
-            const std::string virtualRoot = "/";
+            const std::string virtualRoot{"/"};
 
             GLuint compileShader(const std::string &source, GLenum shaderType);
 

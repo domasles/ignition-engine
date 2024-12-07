@@ -14,7 +14,7 @@ namespace ignition {
     
     class Window {
         public:
-            Window(int width, int height, bool vsync, std::string title, glm::vec4 clearColor=glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+            Window(int width, int height, std::string title, bool vsync=true, glm::vec4 clearColor=glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
             ~Window();
 
             Window(const Window &) = delete;
@@ -30,7 +30,7 @@ namespace ignition {
             glm::vec2 getScreenSize() const { return glm::vec2(width, height); }
 
         private:
-            static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
+            static void frameBufferResizeCallback(GLFWwindow *GLFWWindow, int width, int height);
 
             void init();
 

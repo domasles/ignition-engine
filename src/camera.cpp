@@ -4,7 +4,7 @@ namespace ignition {
     Camera::Camera(const std::shared_ptr<Window> &window, const std::shared_ptr<ShaderProgram> &shaderProgram, float FOV, const float &nearClipPlane, const float &farClipPlane) : window(window), shaderProgram(shaderProgram), FOV(FOV), nearClipPlane(nearClipPlane), farClipPlane(farClipPlane), rightVector(glm::normalize(glm::cross(upVector, direction))), direction(glm::normalize(position - glm::vec3(0.0f, 0.0f, 0.0f))), upAxis(glm::cross(direction, rightVector)) {}
 
     void Camera::setPosition(const glm::vec3 &position) {
-        this->position = position + frontVector;
+        this->position = position;
     }
 
     void Camera::updateProjection() {
@@ -18,10 +18,12 @@ namespace ignition {
     }
 
     void Camera::update() {
-        updateProjection();
-        shaderProgram->setUniform("projection", projection);
+        if (active) {
+            updateProjection();
+            shaderProgram->setUniform("projection", projection);
 
-        updateView();
-        shaderProgram->setUniform("view", view);
+            updateView();
+            shaderProgram->setUniform("view", view);
+        }
     }
 }

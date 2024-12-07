@@ -15,8 +15,8 @@ namespace ignition {
             ~Camera() = default;
             
             void setPosition(const glm::vec3 &position);
-
             void update();
+            void setActive(bool value) { active = value; };
 
         private:
             void updateView();
@@ -25,6 +25,8 @@ namespace ignition {
             float FOV;
             float nearClipPlane;
             float farClipPlane;
+
+            bool active = true;
 
             std::shared_ptr<Window> window;
             std::shared_ptr<ShaderProgram> shaderProgram;

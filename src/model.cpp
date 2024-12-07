@@ -71,8 +71,6 @@ namespace ignition {
 
         material->getShaderProgram()->setUniform("transform", transform);
 
-        glEnable(GL_DEPTH_TEST);
-
         if (!indices.empty()) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         else glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);
 

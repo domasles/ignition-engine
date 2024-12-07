@@ -1,7 +1,7 @@
 #include "include/window.hpp"
 
 namespace ignition {
-    Window::Window(int width, int height, bool vsync, std::string title, glm::vec4 clearColor) : width(width), height(height), vsync(vsync), title(title), clearColor(clearColor) {
+    Window::Window(int width, int height, std::string title, bool vsync, glm::vec4 clearColor) : width(width), height(height), title(title), vsync(vsync), clearColor(clearColor) {
         init();
     }
 
@@ -27,8 +27,13 @@ namespace ignition {
         }
     }
 
-    void Window::framebufferResizeCallback(GLFWwindow *window, int width, int height) {
+    void Window::frameBufferResizeCallback(GLFWwindow *GLFWWindow, int width, int height) {
         glViewport(0, 0, width, height);
+
+        Window *window = static_cast<Window *>(glfwGetWindowUserPointer(GLFWWindow));
+
+        window->width = width;
+        window->height = height;
     }
 
     void Window::init() {
@@ -47,7 +52,8 @@ namespace ignition {
         }
 
         glfwMakeContextCurrent(window);
-        glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+        glfwSetWindowUserPointer(window, this);
+        glfwSetFramebufferSizeCallback(window, frameBufferResizeCallback);
 
         if (vsync) glfwSwapInterval(1);
 
@@ -59,5 +65,10 @@ namespace ignition {
         }
 
         glViewport(0, 0, width, height);
+
+        glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 }

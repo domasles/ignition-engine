@@ -14,13 +14,9 @@ namespace ignition {
 
     void Material::apply() const {
         shaderProgram->use();
-
         shaderProgram->setUniform("materialColor", color);
 
         if (texture && texture->isLoaded()) {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
             texture->bind(0);
             shaderProgram->setUniform("useTexture", true);
         } else {

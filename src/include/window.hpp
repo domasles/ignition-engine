@@ -32,8 +32,6 @@ namespace ignition {
         private:
             static void frameBufferResizeCallback(GLFWwindow *GLFWWindow, int width, int height);
 
-            void init();
-
             int width, height;
 
             bool vsync;

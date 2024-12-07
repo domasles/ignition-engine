@@ -2,41 +2,6 @@
 
 namespace ignition {
     Window::Window(int width, int height, std::string title, bool vsync, glm::vec4 clearColor) : width(width), height(height), title(title), vsync(vsync), clearColor(clearColor) {
-        init();
-    }
-
-    Window::~Window() {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-    }
-
-    void Window::run(LoopCallback loopCallback) {
-        while (!shouldClose()) {
-            float currentFrameTime = glfwGetTime();
-            float deltaTime = currentFrameTime - lastFrameTime;
-
-            lastFrameTime = currentFrameTime;
-
-            glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            loopCallback(deltaTime);
-            
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-        }
-    }
-
-    void Window::frameBufferResizeCallback(GLFWwindow *GLFWWindow, int width, int height) {
-        glViewport(0, 0, width, height);
-
-        Window *window = static_cast<Window *>(glfwGetWindowUserPointer(GLFWWindow));
-
-        window->width = width;
-        window->height = height;
-    }
-
-    void Window::init() {
         glfwInit();
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -70,5 +35,36 @@ namespace ignition {
         glEnable(GL_DEPTH_TEST);
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    Window::~Window() {
+        glfwDestroyWindow(window);
+        glfwTerminate();
+    }
+
+    void Window::run(LoopCallback loopCallback) {
+        while (!shouldClose()) {
+            float currentFrameTime = glfwGetTime();
+            float deltaTime = currentFrameTime - lastFrameTime;
+
+            lastFrameTime = currentFrameTime;
+
+            glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            loopCallback(deltaTime);
+            
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+    }
+
+    void Window::frameBufferResizeCallback(GLFWwindow *GLFWWindow, int width, int height) {
+        glViewport(0, 0, width, height);
+
+        Window *window = static_cast<Window *>(glfwGetWindowUserPointer(GLFWWindow));
+
+        window->width = width;
+        window->height = height;
     }
 }

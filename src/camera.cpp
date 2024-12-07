@@ -8,8 +8,13 @@ namespace ignition {
     }
 
     void Camera::updateProjection() {
-        projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(FOV), window->getScreenSize().x / window->getScreenSize().y, nearClipPlane, farClipPlane);
+        float width = window->getScreenSize().x;
+        float height = window->getScreenSize().y;
+
+        if (width != 0.0f || height != 0.0f) {
+            projection = glm::mat4(1.0f);
+            projection = glm::perspective(glm::radians(FOV), width / height, nearClipPlane, farClipPlane);
+        }
     }
 
     void Camera::updateView() {
